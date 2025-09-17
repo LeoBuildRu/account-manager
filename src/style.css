@@ -1,12 +1,60 @@
-/* Базовые переменные для будущих стилей */
 :root {
   --primary: #4f46e5;
+  --gray-100: #f3f4f6;
   --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-700: #374151;
   --radius-md: 10px;
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-/* Стиль для невалидных полей (пока не используется) */
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.table-container {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  background: white;
+}
+
+.table-header {
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.table-header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.table-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.table-head th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--gray-700);
+  background-color: var(--gray-100);
+}
+
+.table-body td {
+  padding: 1rem;
+  border-top: 1px solid var(--gray-200);
+}
+
+.table-body tr:hover {
+  background-color: rgba(79, 70, 229, 0.02);
+}
+
 .p-invalid {
   border-color: #f44336 !important;
 }

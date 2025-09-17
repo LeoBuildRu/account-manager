@@ -1,4 +1,3 @@
-// Базовый store для управления учетными записями
 import { defineStore } from 'pinia'
 
 export interface Account {
@@ -19,7 +18,6 @@ export const useAccountStore = defineStore('accounts', {
     accounts: []
   }),
   actions: {
-    // Загрузка данных из localStorage
     loadFromLocalStorage() {
       const savedAccounts = localStorage.getItem('accounts')
       if (savedAccounts) {
@@ -27,12 +25,10 @@ export const useAccountStore = defineStore('accounts', {
       }
     },
     
-    // Сохранение данных в localStorage
     saveToLocalStorage() {
       localStorage.setItem('accounts', JSON.stringify(this.accounts))
     },
     
-    // Добавление новой учетной записи
     addAccount() {
       const newAccount: Account = {
         id: Date.now().toString(),
@@ -46,7 +42,6 @@ export const useAccountStore = defineStore('accounts', {
       this.saveToLocalStorage()
     },
     
-    // Обновление учетной записи
     updateAccount(updatedAccount: Account) {
       const index = this.accounts.findIndex(a => a.id === updatedAccount.id)
       if (index !== -1) {
@@ -55,13 +50,11 @@ export const useAccountStore = defineStore('accounts', {
       this.saveToLocalStorage()
     },
     
-    // Удаление учетной записи
     removeAccount(id: string) {
       this.accounts = this.accounts.filter(account => account.id !== id)
       this.saveToLocalStorage()
     },
     
-    // Преобразование строки меток в массив объектов
     processLabel(label: string): { text: string }[] {
       return label.split(';')
         .map(text => text.trim())
@@ -70,7 +63,6 @@ export const useAccountStore = defineStore('accounts', {
     }
   },
   getters: {
-    // Доступные типы учетных записей
     accountTypes: () => ['LDAP', 'Local']
   }
 })
