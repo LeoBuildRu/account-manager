@@ -1,0 +1,12 @@
+/* Базовые переменные для будущих стилей */
+:root {
+  --primary: #4f46e5;
+  --gray-200: #e5e7eb;
+  --radius-md: 10px;
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Стиль для невалидных полей (пока не используется) */
+.p-invalid {
+  border-color: #f44336 !important;
+}
