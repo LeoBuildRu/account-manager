@@ -1,60 +1,545 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
 :root {
   --primary: #4f46e5;
+  --primary-light: #818cf8;
+  --primary-dark: #3730a3;
+  --gray-50: #f9fafb;
   --gray-100: #f3f4f6;
   --gray-200: #e5e7eb;
   --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
   --gray-700: #374151;
-  --radius-md: 10px;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --offset-xs: 1rem;
+  --offset-sm: 2rem;
+  --offset-md: 4rem;
+  --offset-lg: 6rem;
+  --offset-xl: 8rem;
+  --offset-2xl: 10rem;
+  --row-height: 6rem;
+  --input-height: 2.5rem; /* Новая переменная для высоты полей */
 }
 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #f8fafc;
+  color: var(--gray-800);
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+.p-invalid {
+  border-color: #f44336 !important;
+  box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.2) !important;
+}
+
+/* Современные анимации */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.25s ease forwards;
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Увеличенные боковые отступы */
 .app-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+  padding-left: var(--offset-xs);
+  padding-right: var(--offset-xs);
+  max-width: 100%;
 }
 
+@media (min-width: 640px) {
+  .app-container {
+    padding-left: var(--offset-sm);
+    padding-right: var(--offset-sm);
+  }
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    padding-left: var(--offset-md);
+    padding-right: var(--offset-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-container {
+    padding-left: var(--offset-lg);
+    padding-right: var(--offset-lg);
+  }
+}
+
+@media (min-width: 1280px) {
+  .app-container {
+    padding-left: var(--offset-xl);
+    padding-right: var(--offset-xl);
+  }
+}
+
+@media (min-width: 1536px) {
+  .app-container {
+    padding-left: var(--offset-2xl);
+    padding-right: var(--offset-2xl);
+  }
+}
+
+/* Стили для таблицы */
 .table-container {
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-md);
   background: white;
+  border: 1px solid var(--gray-200);
+  transition: var(--transition);
+}
+
+.table-container:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.min-w-full {
+  width: 100%;
 }
 
 .table-header {
-  padding: 1.25rem;
+  background: linear-gradient(to bottom, var(--gray-50), transparent);
+  padding: 1.5rem 1.5rem;
   border-bottom: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .table-header h1 {
   font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
 }
 
 .table-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 0.5rem;
+  margin-left: 1rem;
+}
+
+/* Заголовки таблицы */
+.table-head {
+  background-color: var(--gray-50);
 }
 
 .table-head th {
-  padding: 1rem;
+  padding: 1.25rem 1.5rem;
   text-align: left;
+  font-size: 0.75rem;
   font-weight: 600;
-  color: var(--gray-700);
-  background-color: var(--gray-100);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gray-600);
+  vertical-align: middle;
 }
 
-.table-body td {
-  padding: 1rem;
-  border-top: 1px solid var(--gray-200);
+/* Строки таблицы */
+.table-body tr {
+  border-bottom: 1px solid var(--gray-200);
+  transition: var(--transition);
+  height: var(--row-height);
+}
+
+.table-body tr:last-child {
+  border-bottom: none;
 }
 
 .table-body tr:hover {
   background-color: rgba(79, 70, 229, 0.02);
 }
 
-.p-invalid {
-  border-color: #f44336 !important;
+.table-body td {
+  padding: 1.25rem 1.5rem;
+  vertical-align: middle;
+  position: relative;
+  height: var(--row-height);
+}
+
+/* Исправление двойного border для Dropdown (полная фиксация) */
+.p-dropdown {
+  border: 1px solid var(--gray-300) !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  height: var(--input-height) !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+  border-color: var(--primary) !important;
+}
+
+.p-dropdown:focus, .p-dropdown.p-focus {
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2) !important;
+  border-color: var(--primary) !important;
+}
+
+/* Устранение перекрывающихся границ в выпадающем списке */
+.p-dropdown .p-dropdown-label {
+  padding: 0 0.75rem !important;
+  line-height: 1.5 !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.p-dropdown .p-dropdown-trigger {
+  width: 2.5rem !important;
+  height: var(--input-height) !important;
+  border-left: 1px solid var(--gray-300) !important;
+  background-color: white !important;
+}
+
+.p-dropdown .p-dropdown-trigger .p-dropdown-trigger-icon {
+  margin: 0 !important;
+}
+
+/* Устранение двойного border для выпадающего списка */
+.p-dropdown-panel {
+  border: 1px solid var(--gray-300) !important;
+  box-shadow: var(--shadow-md) !important;
+  border-radius: var(--radius-md) !important;
+  overflow: hidden !important;
+  margin-top: 0.25rem !important;
+}
+
+/* Исправление поля метки - убираем влияние меток на высоту */
+.labels-container {
+  display: none; /* Скрываем метки в табличном представлении */
+  margin-bottom: 0.25rem;
+}
+
+/* Стили для форм */
+.input-group {
+  position: relative;
+  height: var(--input-height);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Минималистичные подсказки в виде иконок с фиксированными всплывающими подсказками */
+.input-hint {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background-color: var(--gray-200);
+  color: var(--gray-600);
+  font-size: 0.75rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.input-hint:hover {
+  background-color: var(--primary);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Фиксация всплывающих подсказок, чтобы они не смещали другие элементы */
+.p-tooltip {
+  max-width: 24rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  position: fixed !important;
+  z-index: 9999 !important;
+  transform: translateZ(0) !important;
+  will-change: transform !important;
+}
+
+/* Стили для полей ввода */
+.p-dropdown, .p-inputtext {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  padding: 0 0.75rem;
+  border: 1px solid var(--gray-300);
+  background-color: white;
+  transition: var(--transition);
+  font-size: 0.875rem;
+  height: var(--input-height);
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.p-dropdown:focus, .p-inputtext:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+/* Обертка для ошибок валидации */
+.validation-error {
+  position: absolute;
+  bottom: -1.5rem;
+  left: 0;
+  width: 100%;
+  font-size: 0.75rem;
+  color: #f44336;
+  height: 1.5rem;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.validation-error.active {
+  bottom: -1.5rem;
+}
+
+/* Минималистичные кнопки */
+.p-button {
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.p-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.p-button:active {
+  transform: translateY(0);
+}
+
+.p-button.p-button-primary {
+  background: linear-gradient(to right, var(--primary), var(--primary-dark));
+  border: none;
+  font-weight: 500;
+}
+
+.p-button.p-button-text {
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.p-button.p-button-text:hover {
+  background-color: rgba(248, 113, 113, 0.1);
+}
+
+/* Минималистичная кнопка добавления с идеальным центрированием */
+.add-account-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.add-account-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+  transform: scale(0);
+  transition: transform 0.3s ease;
+  pointer-events: none;
+}
+
+.add-account-button:active::before {
+  transform: scale(1);
+}
+
+.add-account-button:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 12px -2px rgba(79, 70, 229, 0.3);
+}
+
+.add-account-button i {
+  font-size: 1.25rem;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Пустое состояние */
+.empty-state {
+  padding: 4rem 2rem;
+  text-align: center;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-state i {
+  font-size: 3.5rem;
+  color: var(--gray-300);
+  margin-bottom: 1.5rem;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  color: var(--gray-700);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.empty-state p {
+  color: var(--gray-500);
+  max-width: 32rem;
+  margin: 0 auto 1.5rem;
+  line-height: 1.6;
+}
+
+.empty-state .empty-state-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .table-head, .table-body {
+    display: block;
+    width: 100%;
+  }
+  
+  .table-head th {
+    border: none;
+    height: 0;
+    padding: 0;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+  }
+  
+  .table-body tr {
+    display: block;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  
+  .table-body td {
+    display: block;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  
+  .table-body td:last-child {
+    border-bottom: none;
+  }
+  
+  .table-body td:before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    color: var(--gray-700);
+    width: 40%;
+  }
+  
+  .app-container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  .table-header {
+    padding: 1rem 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .table-actions {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .empty-state {
+    padding: 2rem 1rem;
+  }
+  
+  /* Для мобильных увеличиваем высоту строк */
+  .table-body tr {
+    height: auto !important;
+  }
+  
+  .table-body td {
+    height: auto !important;
+  }
 }

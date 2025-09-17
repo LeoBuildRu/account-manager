@@ -1,5 +1,4 @@
 <template>
-  <!-- Улучшенная форма с базовой валидацией -->
   <div class="account-item">
     <div class="account-header">
       <h3>Учетная запись</h3>
@@ -7,48 +6,103 @@
     </div>
     
     <div class="p-field">
-      <label>Метка</label>
+      <label class="flex items-center">
+        Метка
+        <span 
+          v-tooltip="{
+            content: 'Максимум 50 символов. Вводите текстовые метки, разделенные знаком ;',
+            position: 'top'
+          }" 
+          class="input-hint ml-2"
+          data-testid="label-hint"
+        >
+          ?
+        </span>
+      </label>
       <InputText 
         v-model="tempAccount.label" 
         placeholder="Введите метки через ;" 
         @blur="validateAndSave"
         :class="{ 'p-invalid': validationErrors.label }"
       />
-      <small class="p-error">{{ validationErrors.label }}</small>
-      <small>Максимум 50 символов</small>
+      <div class="validation-error" :class="{ 'active': validationErrors.label }">
+        {{ validationErrors.label }}
+      </div>
     </div>
     
     <div class="p-field">
-      <label>Тип записи</label>
+      <label class="flex items-center">
+        Тип записи
+        <span 
+          v-tooltip="{
+            content: 'Выберите тип учетной записи из предопределенных вариантов',
+            position: 'top'
+          }" 
+          class="input-hint ml-2"
+          data-testid="type-hint"
+        >
+          ?
+        </span>
+      </label>
       <Dropdown 
         v-model="tempAccount.type" 
         :options="accountTypes" 
         placeholder="Выберите тип"
         @change="onTypeChange"
+        :class="{ 'p-invalid': validationErrors.type }"
       />
+      <div class="validation-error" :class="{ 'active': validationErrors.type }">
+        {{ validationErrors.type }}
+      </div>
     </div>
     
     <div class="p-field">
-      <label>Логин</label>
+      <label class="flex items-center">
+        Логин
+        <span 
+          v-tooltip="{
+            content: 'Обязательное поле, максимум 100 символов',
+            position: 'top'
+          }" 
+          class="input-hint ml-2"
+          data-testid="login-hint"
+        >
+          ?
+        </span>
+      </label>
       <InputText 
         v-model="tempAccount.login" 
         @blur="validateAndSave"
         :class="{ 'p-invalid': validationErrors.login }"
       />
-      <small class="p-error">{{ validationErrors.login }}</small>
-      <small>Обязательное поле, максимум 100 символов</small>
+      <div class="validation-error" :class="{ 'active': validationErrors.login }">
+        {{ validationErrors.login }}
+      </div>
     </div>
     
     <div class="p-field" v-if="tempAccount.type === 'Local'">
-      <label>Пароль</label>
+      <label class="flex items-center">
+        Пароль
+        <span 
+          v-tooltip="{
+            content: 'Обязательное поле, максимум 100 символов',
+            position: 'top'
+          }" 
+          class="input-hint ml-2"
+          data-testid="password-hint"
+        >
+          ?
+        </span>
+      </label>
       <InputText 
         v-model="tempAccount.password" 
         type="password"
         @blur="validateAndSave"
         :class="{ 'p-invalid': validationErrors.password }"
       />
-      <small class="p-error">{{ validationErrors.password }}</small>
-      <small>Обязательное поле, максимум 100 символов</small>
+      <div class="validation-error" :class="{ 'active': validationErrors.password }">
+        {{ validationErrors.password }}
+      </div>
     </div>
   </div>
 </template>
@@ -68,7 +122,8 @@ const tempAccount = ref<Account>({ ...props.account })
 const validationErrors = ref({
   label: '',
   login: '',
-  password: ''
+  password: '',
+  type: ''
 })
 
 // Получаем доступ к типам записей из store
@@ -85,7 +140,7 @@ const onTypeChange = () => {
 // Валидация полей
 const validateFields = (): boolean => {
   let isValid = true
-  validationErrors.value = { label: '', login: '', password: '' }
+  validationErrors.value = { label: '', login: '', password: '', type: '' }
 
   // Валидация метки
   if (tempAccount.value.label && tempAccount.value.label.length > 50) {
@@ -107,7 +162,7 @@ const validateFields = (): boolean => {
     if (!tempAccount.value.password) {
       validationErrors.value.password = 'Пароль обязателен для заполнения'
       isValid = false
-    } else if (tempAccount.value.password.length > 100) {
+    } else if (tempAccount.value.password && tempAccount.value.password.length > 100) {
       validationErrors.value.password = 'Пароль не должен превышать 100 символов'
       isValid = false
     }

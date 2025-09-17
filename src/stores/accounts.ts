@@ -7,6 +7,7 @@ export interface Account {
   login: string
   password: string | null
   labelsArray: { text: string }[]
+  isNew?: boolean
 }
 
 interface AccountsState {
@@ -36,7 +37,8 @@ export const useAccountStore = defineStore('accounts', {
         type: 'Local',
         login: '',
         password: null,
-        labelsArray: []
+        labelsArray: [],
+        isNew: true
       }
       this.accounts.push(newAccount)
       this.saveToLocalStorage()
@@ -45,7 +47,9 @@ export const useAccountStore = defineStore('accounts', {
     updateAccount(updatedAccount: Account) {
       const index = this.accounts.findIndex(a => a.id === updatedAccount.id)
       if (index !== -1) {
-        this.accounts[index] = updatedAccount
+        // Сохраняем флаг isNew для анимации
+        const isNew = this.accounts[index].isNew
+        this.accounts[index] = { ...updatedAccount, isNew }
       }
       this.saveToLocalStorage()
     },
